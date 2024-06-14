@@ -64,9 +64,28 @@ env_config={
     "weather_prob_days": 2,
     # Reward function config
     'reward_function': normalize_reward_function,
-    'cut_reward_len': 1, # longitud en días del periodo cada el cual se registra una recompensa
-    'beta_reward': 0.5,
-    'energy_ref': 1500000, # maxima energía (en joules) requerida por el control convencional
+    'reward_function_config': {
+        # cut_reward_len_timesteps: Este parámetro permite que el agente no reciba una recompensa 
+        # en cada paso de tiempo, en cambio las variables para el cálculo de la recompensa son 
+        # almacenadas en una lista para luego utilizar una recompensa promedio cuando se alcanza 
+        # la cantidad de pasos de tiempo indicados por 'cut_reward_len_timesteps'.
+        'cut_reward_len_timesteps': 144,
+        # Parámetros para la exclusión de términos de la recompensa
+        'comfort_reward': True,
+        'energy_reward': True,              
+        # beta_reward: Parámetros de ponderación para la energía y el confort.
+        'beta_reward': 0.5,               
+        # energy_ref: El valor de referencia depende del entorno. Este puede corresponder a la energía máxima que puede demandar el entorno en un paso de tiempo, un valor de energía promedio u otro.
+        'energy_ref': 1500000,
+        # co2_ref: Este parámtero indica el valor de referencia de consentración de CO2 que se espera tener en un ambiente con una calidad de aire óptima.
+        'co2_ref': 870,
+        # Nombres de las variables utilizadas en su configuración del entorno.
+        'occupancy_name': 'occupancy',
+        'ppd_name': 'ppd',
+        'T_interior_name': 'Ti',
+        'cooling_name': 'cooling',
+        'heating_name': 'heating'
+    }
 }
 # beta 0.5
 checkpoint_path = 'C:/Users/grhen/ray_results/20240604095101_OnOffHVAC_marl_PPO/OnOffHVAC_beta05_PPO_2fcad_00000/checkpoint_000027'
